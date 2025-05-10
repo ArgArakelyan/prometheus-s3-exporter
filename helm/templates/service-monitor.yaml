@@ -1,0 +1,24 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ .Chart.Name }}-monitor
+  labels:
+    app: {{ .Chart.Name }}
+    release: {{ .Values.serviceMonitor.release }}
+spec:
+  endpoints:
+  - port: http
+    interval: {{ .Values.serviceMonitor.interval }}
+    scrapeTimeout: 10s {{ .Values.serviceMonitor.scrapeTimeout }}
+    {{ - if .Values.serviceMonitor.tls.enabled }}
+    scheme: https
+    tlsConfig:
+      insecureSkipVerify: {{ .Values.serviceMonitor.tls.insecureSkipVerify }}
+    {{ - end }}
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
