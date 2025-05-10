@@ -1,0 +1,20 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: s3-exporter-servicemonitor
+  namespace: monitoring
+  labels:
+    app: s3-exporter
+    release: prometheus-operator
+spec:
+  endpoints:
+  - port: http
+    interval: 30s
+    scrapeTimeout: 10s
+  namespaceSelector:
+    matchNames:
+      - monitoring
+  selector:
+    matchLabels:
+      app: s3-exporter
