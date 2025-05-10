@@ -3,6 +3,7 @@ from prometheus_client import start_http_server, Gauge
 from datetime import datetime, timezone
 import os
 import time
+import logging
 
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
 AWS_ACCESS_SECRET_KEY = os.getenv("AWS_ACCESS_SECRET_KEY")
@@ -76,13 +77,13 @@ class S3Exporter:
                 )
 
         except Exception as e:
-            print(f"Error collecting metrics for bucket {bucket_name}: {str(e)}")
+            logging.error(f"Error collecting metrics for bucket {bucket_name}: {str(e)}")
 
     def run(self):
         """Запуск экспортера"""
         start_http_server(9000)
-        print("S3 Exporter started on port 9000")
-        print(f"S3 Endpoint: {self.endpoint_url or 'AWS Default'}")
+        logging.info("S3 Exporter started on port 9000")
+        logging.info(f"S3 Endpoint: {self.endpoint_url or 'AWS Default'}")
 
         while True:
             try:
@@ -92,7 +93,7 @@ class S3Exporter:
                     self.collect_bucket_metrics(bucket_name)
 
             except Exception as e:
-                print(f"Error in main loop: {str(e)}")
+                logging.error(f"Error in main loop: {str(e)}")
 
             time.sleep(60)
 
