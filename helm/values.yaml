@@ -24,8 +24,7 @@ secrets:
     key: ENDPOINT_URL
 
 service:
-  type:
-  port:
+  port: 9000
 
 serviceMonitor:
   release: prometheus-operator
