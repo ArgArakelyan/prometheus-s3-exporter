@@ -1,0 +1,59 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: s3-exporter
+  namespace: monitoring
+  labels:
+    app: s3-exporter
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: s3-exporter
+  template:
+    metadata:
+      labels:
+        app: s3-exporter
+    spec:
+      serviceAccountName: default
+      containers:
+        - name: s3-exporter
+          image: int0xicated/s3-exporter:v.0.2
+          imagePullPolicy: IfNotPresent
+          # imagePullPolicy: Always
+          imagePullSecrets: regcred-harbor
+          ports:
+            - name: http
+              containerPort: 9000
+              protocol: TCP
+          resources:
+            limits:
+              cpu: "100m"
+              memory: "124Mi"
+            requests:
+              cpu: "30m"
+              memory: "96Mi"
+          env:
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: s3-exporter-secrets
+                key: AWS_ACCESS_KEY_ID
+          - name: AWS_ACCESS_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: s3-exporter-secrets
+                key: AWS_ACCESS_SECRET_KEY
+          - name: REGION_NAME
+            valueFrom:
+              secretKeyRef:
+                name: s3-exporter-secrets
+                key: REGION_NAME
+          - name: ENDPOINT_URL
+            valueFrom:
+              secretKeyRef:
+                name: s3-exporter-secrets
+                key: ENDPOINT_URL
