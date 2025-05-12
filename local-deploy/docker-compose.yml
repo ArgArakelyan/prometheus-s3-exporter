@@ -1,0 +1,11 @@
+services:
+  prometheus-s3-exporter:
+    build:
+      context: ./src
+      dockerfile: Dockerfile
+    environment:
+      - AWS_ACCESS_KEY_ID=
+      - AWS_ACCESS_SECRET_KEY=
+      - REGION_NAME=
+      - ENDPOINT_URL=
+      - METRICS_PORT=9000
