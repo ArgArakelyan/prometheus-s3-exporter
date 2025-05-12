@@ -9,6 +9,7 @@ AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
 AWS_ACCESS_SECRET_KEY = os.getenv("AWS_ACCESS_SECRET_KEY")
 REGION_NAME = os.getenv("REGION_NAME")
 ENDPOINT_URL = os.getenv("ENDPOINT_URL")
+METRICS_PORT = os.getenv("METRICS_PORT")
 
 
 class S3Exporter:
@@ -81,8 +82,8 @@ class S3Exporter:
 
     def run(self):
         """Запуск экспортера"""
-        start_http_server(9000)
-        logging.info("S3 Exporter started on port 9000")
+        start_http_server(int(METRICS_PORT))
+        logging.info("S3 Exporter started on port %s", str(METRICS_PORT))
         logging.info(f"S3 Endpoint: {self.endpoint_url or 'AWS Default'}")
 
         while True:

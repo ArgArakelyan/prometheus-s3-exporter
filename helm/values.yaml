@@ -1,4 +1,7 @@
+# Number of replicas to deploy
 replicaCount: 1
+
+# Resource limits and requests for the container
 resources:
   limits:
     cpu: "100m"
@@ -7,12 +10,17 @@ resources:
     cpu: "30m"
     memory: "91Mi"
 
+# Image configuration
 image:
   repository: int0xicated/s3-exporter
   tag: v.0.2
-#  pullSecrets:
+  # Optional: Secrets for pulling images from private registries
+  #  pullSecrets:
+  #   - name: regcred-harbor
+  # Image pull policy (IfNotPresent, Always, Never)
   pullPolicy: IfNotPresent
 
+# Secrets configuration for environment variables
 secrets:
   aws_access_key:
     key: AWS_ACCESS_KEY_ID
@@ -23,10 +31,13 @@ secrets:
   endpoint_url:
     key: ENDPOINT_URL
 
+# Service configuration
 service:
   port: 9000
 
+# ServiceMonitor configuration for Prometheus Operator
 serviceMonitor:
+  # Release name of Prometheus Operator
   release: prometheus-operator
   interval: 30s
   scrapeTimeout: 10s
