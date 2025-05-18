@@ -1,0 +1,11 @@
+buckets:
+  - name: "harbor-bucket"
+    aws_access_key_id: "accesskey"
+    aws_secret_access_key: "secretkey"
+    region_name: "ru-1"
+    endpoint_url: "https://s3.twcstorage.ru"
+  - name: "backend-attachments"
+    aws_access_key_id: "accesskey"
+    aws_secret_access_key: "secretkey"
+    region_name: "ru-1"
+    endpoint_url: "https://s3.twcstorage.ru"

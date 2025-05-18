@@ -23,7 +23,7 @@ spec:
           image: int0xicated/s3-exporter:v.0.2
           imagePullPolicy: IfNotPresent
           # imagePullPolicy: Always
-          imagePullSecrets: regcred-harbor
+          # imagePullSecrets: regcred-harbor
           ports:
             - name: http
               containerPort: 9000
@@ -36,25 +36,13 @@ spec:
               cpu: "30m"
               memory: "96Mi"
           env:
-          - name: AWS_ACCESS_KEY_ID
-            valueFrom:
-              secretKeyRef:
-                name: s3-exporter-secrets
-                key: AWS_ACCESS_KEY_ID
-          - name: AWS_ACCESS_SECRET_KEY
-            valueFrom:
-              secretKeyRef:
-                name: s3-exporter-secrets
-                key: AWS_ACCESS_SECRET_KEY
-          - name: REGION_NAME
-            valueFrom:
-              secretKeyRef:
-                name: s3-exporter-secrets
-                key: REGION_NAME
-          - name: ENDPOINT_URL
-            valueFrom:
-              secretKeyRef:
-                name: s3-exporter-secrets
-                key: ENDPOINT_URL
           - name: METRICS_PORT
             value: "9000"
+          - name: CONFIG_FILE
+            value: |
+              buckets:
+                - name: $(BUCKET_NAME)
+                  aws_access_key_id: $(AWS_ACCESS_KEY_ID)
+                  aws_secret_access_key: $(AWS_SECRET_ACCESS_KEY)
+                  region_name: $(REGION_NAME)
+                  endpoint_url: $(ENDPOINT_URL)

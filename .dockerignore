@@ -1,0 +1,5 @@
+/local-deploy
+/helm
+/argocd-deploy
+.gitignore
+README.md
